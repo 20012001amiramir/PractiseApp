@@ -1,4 +1,4 @@
-package com.example.practiseapp.data.network.mappers
+package com.example.practiseapp.data.mappers
 
 import com.example.practiseapp.data.network.dto.UserSignInResponse
 import com.example.practiseapp.data.network.dto.UserSignIn

@@ -3,7 +3,7 @@ package com.example.practiseapp.data.repositories
 import com.example.practiseapp.domain.entities.AccountUser
 import com.example.practiseapp.domain.repositories.IAuthRepository
 import com.example.practiseapp.data.network.AuthApi
-import com.example.practiseapp.data.network.mappers.AccountUserApiMapper
+import com.example.practiseapp.data.mappers.AccountUserApiMapper
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
