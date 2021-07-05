@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/startFragment"
-        android:name="com.example.practiseapp.presentation.WelcomeFragment"
+        android:name="com.example.practiseapp.presentation.welcome.WelcomeFragment"
         android:label="Welcome"
         tools:layout="@layout/start_page">
         <action
@@ -18,12 +18,12 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.practiseapp.presentation.LoginFragment"
+        android:name="com.example.practiseapp.presentation.welcome.LoginFragment"
         android:label="Login"
         tools:layout="@layout/login_page"/>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.practiseapp.presentation.RegisterFragment"
+        android:name="com.example.practiseapp.presentation.welcome.RegisterFragment"
         android:label="Register"
         tools:layout="@layout/register_page"/>
 </navigation>

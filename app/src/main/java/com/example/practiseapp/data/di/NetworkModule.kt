@@ -1,5 +1,6 @@
 package com.example.practiseapp.data.di
 
+import com.example.practiseapp.Constants
 import com.example.practiseapp.data.network.AuthApi
 import dagger.Module
 import dagger.Provides
@@ -14,8 +15,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
-    
-    private val API_URL = "https://tools.mircod.one/api/"
 
     @Singleton
     @Provides
@@ -29,7 +28,7 @@ class NetworkModule {
     fun provideRetrofit(client: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .client(client)
-            .baseUrl(API_URL)
+            .baseUrl(Constants.API_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
