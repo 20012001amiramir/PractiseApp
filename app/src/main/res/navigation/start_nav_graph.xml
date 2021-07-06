@@ -2,10 +2,10 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/startFragment">
+    app:startDestination="@id/welcomeFragment">
 
     <fragment
-        android:id="@+id/startFragment"
+        android:id="@+id/welcomeFragment"
         android:name="com.example.practiseapp.presentation.welcome.WelcomeFragment"
         android:label="Welcome"
         tools:layout="@layout/start_page">

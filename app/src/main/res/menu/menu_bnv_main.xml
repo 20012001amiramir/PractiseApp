@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_page_profile"
+        android:id="@+id/profile"
         android:icon="@drawable/round_person_black_48dp"
         android:title="@string/bnv_menu_profile" />
     <item
-        android:id="@+id/menu_page_home"
+        android:id="@+id/home"
         android:icon="@drawable/round_home_black_48dp"
         android:title="@string/bnv_menu_home" />
     <item
-        android:id="@+id/menu_page_settings"
+        android:id="@+id/settings"
         android:icon="@drawable/round_settings_black_48dp"
         android:title="@string/bnv_menu_settings" />
 </menu>

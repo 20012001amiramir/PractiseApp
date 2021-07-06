@@ -24,12 +24,6 @@ class StartActivity : AppCompatActivity() {
     @Inject
     lateinit var sessionManager: SessionManager
 
-    private val BATTERY_SERVICE_UUID: UUID = UUID.fromString("0000180F-0000-1000-8000-00805f9b34fb")
-    private val DEVICE_SERVICE_UUID: UUID = UUID.fromString("0000180A-0000-1000-8000-00805f9b34fb")
-    private var arrayUUI = ArrayList<UUID>()
-    private lateinit var central: BluetoothCentralManager
-    val scope = CoroutineScope(Dispatchers.IO)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(Constants.TOKEN_LOG, "TOKEN VALUE: ${sessionManager.fetchAuthToken()}")
@@ -39,26 +33,6 @@ class StartActivity : AppCompatActivity() {
         } else {
             WelcomeActivity.start(this)
             finish()
-        }
-
-        central = BluetoothCentralManager(this)
-        central.scanForPeripheralsWithServices(
-            arrayOf(
-                BATTERY_SERVICE_UUID,
-                DEVICE_SERVICE_UUID
-            )
-        ) { peripheral, scanResult ->
-            central.stopScan()
-            scope.launch {
-                try {
-                    Log.println(Log.ASSERT, "name", peripheral.name)
-                    Log.println(Log.ASSERT, "rssi", scanResult.rssi.toString())
-                    Log.e("success", "connection good!")
-                } catch (connectionFailed: ConnectionFailedException) {
-                    Log.e("error", "connection failed(")
-                }
-            }
-
         }
     }
 
