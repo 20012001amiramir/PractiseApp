@@ -17,15 +17,18 @@ class WelcomeViewModel @Inject constructor(
     @SignInUseCaseMain private val signInUseCase: ISignInUseCase,
     @SignUpUseCaseMain private val signUpUseCase: ISignUpUseCase
 ): ViewModel(){
-    private val _isAuthenticated = MutableLiveData<Result<Boolean>>()
-    val isAuthenticated: LiveData<Result<Boolean>>
-        get() = _isAuthenticated
+    private val _token = MutableLiveData<Result<String>>()
+    private val _userData = MutableLiveData<Result<AccountUser>>()
+    val token: LiveData<Result<String>>
+        get() = _token
+    val userData: LiveData<Result<AccountUser>>
+        get() = _userData
 
     fun signIn(accountUser: AccountUser) = viewModelScope.launch {
-        _isAuthenticated.value = signInUseCase(accountUser)
+        _token.postValue(signInUseCase(accountUser))
     }
 
     fun signUp(accountUser: AccountUser) = viewModelScope.launch {
-        _isAuthenticated.value = signUpUseCase(accountUser)
+        _userData.postValue(signUpUseCase(accountUser))
     }
 }

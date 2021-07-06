@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.practiseapp.R
@@ -31,33 +32,26 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        subscribeObservers()
         binding.btnRegister.setOnClickListener {
-            val registerData = AccountUser(email = binding.etEmail.toString(),
-                username = binding.etUsername.toString(),
-                password = binding.etPassword.toString(),
-                firstName = binding.etFirstName.toString(),
-                lastName = binding.etSecondName.toString()
+            val registerData = AccountUser(email = binding.etEmail.text.toString(),
+                username = binding.etUsername.text.toString(),
+                password = binding.etPassword.text.toString(),
+                firstName = binding.etFirstName.text.toString(),
+                lastName = binding.etSecondName.text.toString()
             )
             welcomeViewModel.signUp(registerData)
         }
     }
 
     private fun subscribeObservers() {
-        welcomeViewModel.isAuthenticated.observe(viewLifecycleOwner) { isAuthenticated ->
-            when (isAuthenticated) {
+        welcomeViewModel.userData.observe(viewLifecycleOwner) { userData ->
+            when (userData) {
                 is Result.Success -> {
-                    Snackbar.make(
-                        requireActivity().findViewById(R.id.root_welcome),
-                        isAuthenticated.data.toString(),
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(context, userData.data.toString(), Toast.LENGTH_LONG).show()
                 }
                 is Result.Failure -> {
-                    Snackbar.make(
-                        requireActivity().findViewById(R.id.root_welcome),
-                        isAuthenticated.exception.message ?: "Has not been signed up",
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(context, userData.exception.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
