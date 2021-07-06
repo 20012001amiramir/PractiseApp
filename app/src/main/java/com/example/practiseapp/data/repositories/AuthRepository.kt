@@ -12,6 +12,7 @@ import com.example.practiseapp.domain.entities.LoggedUser
 import com.example.practiseapp.domain.entities.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import com.example.practiseapp.data.mappers.AccountUserApiMapper
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
