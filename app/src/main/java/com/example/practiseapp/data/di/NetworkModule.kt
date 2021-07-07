@@ -1,11 +1,13 @@
 package com.example.practiseapp.data.di
 
 import com.example.practiseapp.Constants
+import com.example.practiseapp.data.di.qualifiers.AuthInterceptor
 import com.example.practiseapp.data.network.AuthApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,24 +20,24 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient =
+    fun provideOkHttpClient(@AuthInterceptor authInterceptor: Interceptor): OkHttpClient =
         OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(authInterceptor)
             .build()
 
     @Singleton
     @Provides
-    fun provideRetrofit(client: OkHttpClient): Retrofit =
+    fun provideRetrofit(client: OkHttpClient): Retrofit.Builder =
         Retrofit.Builder()
             .client(client)
             .baseUrl(Constants.API_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
     @Singleton
     @Provides
-    fun provideApiInterface(retrofit: Retrofit): AuthApi {
-        return retrofit.create(AuthApi::class.java)
+    fun provideApiInterface(retrofit: Retrofit.Builder): AuthApi {
+        return retrofit.build().create(AuthApi::class.java)
     }
 
 }

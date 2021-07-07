@@ -9,12 +9,14 @@ import com.example.practiseapp.R
 import com.example.practiseapp.databinding.HomePageBinding
 import com.example.practiseapp.databinding.ProfilePageBinding
 import com.example.practiseapp.databinding.SettingPageBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private var _binding: ProfilePageBinding? = null

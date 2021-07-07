@@ -40,7 +40,6 @@ class AuthRepository @Inject constructor(
             }
         }
 
-
     override suspend fun signUp(accountUser: AccountUser): Result<AccountUser> =
         withContext(Dispatchers.IO) {
             try {
@@ -58,8 +57,12 @@ class AuthRepository @Inject constructor(
 
         }
 
-    override suspend fun signOut(): Result<LogoutStatus> {
-        TODO("Not yet implemented")
-    }
+    /*override suspend fun signOut(): Result<LogoutStatus> =
+        withContext(Dispatchers.IO) {
+            try {
+                val logoutResponse = authApi.signOut()
+                //return@withContext
+            }
+        }*/
     //TODO:Rewrite with exceptions
 }
