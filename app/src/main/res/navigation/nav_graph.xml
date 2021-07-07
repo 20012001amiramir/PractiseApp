@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/profileFragment">
-
-    <include android:id="@+id/start_nav_graph"
-        app:graph="@navigation/start_nav_graph" />
+    app:startDestination="@id/home">
 
     <fragment
-        android:id="@+id/profileFragment"
-        android:label="Profile" >
+        android:id="@+id/profile"
+        android:name="com.example.practiseapp.presentation.main.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/profile_page">
         <action
             android:id="@+id/action_profileFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settings" />
         <action
             android:id="@+id/action_profileFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_start_nav_graph"
-            app:destination="@id/start_nav_graph" />
+            app:destination="@id/home" />
     </fragment>
     <fragment
-        android:id="@+id/settingsFragment"
-        android:label="Settings" >
+        android:id="@+id/settings"
+        android:name="com.example.practiseapp.presentation.main.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/setting_page">
         <action
             android:id="@+id/action_settingsFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/home" />
         <action
             android:id="@+id/action_settingsFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profile" />
     </fragment>
     <fragment
-        android:id="@+id/homeFragment"
-        android:label="Home" >
+        android:id="@+id/home"
+        android:name="com.example.practiseapp.presentation.main.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/home_page">
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settings" />
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profile" />
     </fragment>
 </navigation>

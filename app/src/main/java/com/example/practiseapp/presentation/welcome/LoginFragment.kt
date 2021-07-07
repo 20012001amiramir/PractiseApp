@@ -11,6 +11,7 @@ import com.example.practiseapp.R
 import com.example.practiseapp.databinding.LoginPageBinding
 import com.example.practiseapp.domain.common.Result
 import com.example.practiseapp.domain.entities.AccountUser
+import com.example.practiseapp.presentation.main.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,6 +46,7 @@ class LoginFragment : Fragment() {
             when (token) {
                 is Result.Success -> {
                     Toast.makeText(context, token.data, Toast.LENGTH_LONG).show()
+                    MainActivity.start(requireActivity())
                 }
                 is Result.Failure -> {
                     Toast.makeText(context, token.exception.message, Toast.LENGTH_LONG).show()
