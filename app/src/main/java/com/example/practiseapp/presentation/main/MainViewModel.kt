@@ -10,10 +10,6 @@ import com.example.practiseapp.domain.entities.SessionManager
 import com.example.practiseapp.domain.usecases.AuthUseCases.ISignOutUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import androidx.lifecycle.ViewModel
-import com.example.practiseapp.data.di.qualifiers.SignOutUseCaseMain
-import com.example.practiseapp.domain.usecases.AuthUseCases.SignOutUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
