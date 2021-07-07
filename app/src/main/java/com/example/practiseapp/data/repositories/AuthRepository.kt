@@ -7,7 +7,6 @@ import com.example.practiseapp.domain.repositories.IAuthRepository
 import com.example.practiseapp.data.network.AuthApi
 import com.example.practiseapp.data.network.dto.LogoutStatus
 import com.example.practiseapp.domain.common.Result
-import com.example.practiseapp.data.network.mappers.AccountUserApiMapper
 import com.example.practiseapp.domain.entities.LoggedUser
 import com.example.practiseapp.domain.entities.SessionManager
 import kotlinx.coroutines.Dispatchers
