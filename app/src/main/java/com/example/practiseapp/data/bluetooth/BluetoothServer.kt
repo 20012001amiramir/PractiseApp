@@ -2,6 +2,7 @@ package com.example.practiseapp.data.bluetooth
 
 import android.app.Application
 import android.bluetooth.BluetoothGatt
+import android.util.Log
 import com.clj.fastble.BleManager
 import com.clj.fastble.callback.BleGattCallback
 import com.clj.fastble.callback.BleNotifyCallback
@@ -12,7 +13,8 @@ import com.clj.fastble.exception.BleException
 import com.clj.fastble.scan.BleScanRuleConfig
 import com.example.practiseapp.Constants.MEASURE_SERVICE_UUID
 import com.example.practiseapp.Constants.TEMP_CHAR_UUID
-import timber.log.Timber
+import java.nio.ByteBuffer
+
 
 class BluetoothServer(application: Application) {
     private lateinit var devices: MutableList<BleDevice>
@@ -25,7 +27,7 @@ class BluetoothServer(application: Application) {
             .setSplitWriteNum(20)
             .setConnectOverTime(10000).operateTimeout = 5000
         if (!ble.isSupportBle) {
-            Timber.i("Dont support bluetooth")
+            Log.i("appconfig","Dont support bluetooth")
             return
         } else if (!ble.isBlueEnable) {
             ble.enableBluetooth()
@@ -41,7 +43,7 @@ class BluetoothServer(application: Application) {
             }
 
             override fun onScanning(bleDevice: BleDevice?) {
-                Timber.d("${bleDevice?.name} - ${bleDevice?.mac ?: ""}")
+                Log.d("appconfig","${bleDevice?.name} - ${bleDevice?.mac}")
             }
 
             override fun onScanFinished(scanResultList: MutableList<BleDevice>?) {
@@ -50,17 +52,17 @@ class BluetoothServer(application: Application) {
 
                 }
                 startConnection(ble, scanResultList)
-                Timber.d("devices: ${scanResultList?.toString() ?: ""}")
+                Log.d("appconfig","devices: ${scanResultList?.toString() ?: ""}")
             }
 
             fun startConnection(ble: BleManager, devices: MutableList<BleDevice>?) {
-                ble.connect(devices?.get(0), object : BleGattCallback() {
+                ble.connect("FA:E6:41:AF:56:30", object : BleGattCallback() {
                     override fun onStartConnect() {
-                        Timber.d("Start connnect!")
+                        Log.d("appconfig","Start connnect!")
                     }
 
                     override fun onConnectFail(bleDevice: BleDevice?, exception: BleException?) {
-                        Timber.d("Fail!")
+                        Log.d("appconfig","Fail!")
                     }
 
                     override fun onConnectSuccess(
@@ -68,22 +70,22 @@ class BluetoothServer(application: Application) {
                         gatt: BluetoothGatt?,
                         status: Int
                     ) {
-                        Timber.d("Connect!")
-                        Timber.d(bleDevice?.device?.address?.toString() ?: "empty")
+                        Log.d("appconfig","Connect!")
+                        Log.d("appconfig",bleDevice?.device?.address?.toString() ?: "empty")
                         gatt?.let { transferData(it) }
-                        Timber.d("")
+                        Log.d("appconfig","")
                         ble.read(
                             bleDevice!!,
                             MEASURE_SERVICE_UUID,
                             TEMP_CHAR_UUID,
                             object : BleReadCallback() {
                                 override fun onReadSuccess(data: ByteArray) {
-                                    Timber.d("bytes: $data")
+                                    Log.d("appconfig","bytes: $data")
                                 }
 
                                 override fun onReadFailure(exception: BleException) {
-                                    Timber.d("bytes: failure")
-                                    Timber.d(exception.toString() + "\n" + exception.description)
+                                    Log.d("appconfig","bytes: failure")
+                                    Log.d("appconfig",exception.toString() + "\n" + exception.description)
                                 }
                             }
                         )
@@ -93,22 +95,44 @@ class BluetoothServer(application: Application) {
                             TEMP_CHAR_UUID,
                             object : BleNotifyCallback() {
                                 override fun onNotifySuccess() {
-                                    Timber.d("notify success")
+                                    Log.d("appconfig","notify success")
                                 }
 
                                 override fun onNotifyFailure(exception: BleException?) {
-                                    Timber.d("failure")
+                                    Log.d("appconfig","failure")
+                                }
+                                fun byteToInt(bytes: Array<Byte?>): Int {
+                                    var result = 0
+                                    for (i in bytes.indices) {
+                                        result = result or ((bytes[i]?.toInt())?.shl(8 * i)!!)
+                                    }
+                                    return result
+                                }
+                                fun toBinary(value: Int): String{
+                                    var number = value
+                                    if(value < 0) number+=255
+                                    return String.format("%8s",Integer.toBinaryString(number)).replace(" ","0")
+                                }
+                                fun binaryToInt(binaryDigits: String): Int {
+                                    val binaryValues = arrayListOf(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768)
+                                    val reversedDigits = binaryDigits.reversed()
+
+                                    var returnedInt = 0
+                                    var x = 0
+                                    for (i in reversedDigits){
+                                        if (i == '1' && x < 16) {
+                                            returnedInt += binaryValues[x]
+                                        }
+                                        x++
+                                    }
+                                    return returnedInt
                                 }
 
-                                override fun onCharacteristicChanged(data: ByteArray?) {
-                                    var output = ""
-                                    var x = data!!.decodeToString(0, 2)
-                                    for (byte in data) {
-                                        output = "$output${byte}:"
-                                    }
-                                    Timber.d("decoded byte array = ${data.decodeToString()}")
-                                    Timber.d("notification bytes = $output")
-                                    Timber.d("notification temp = ${x}")
+                                override fun onCharacteristicChanged(data: ByteArray? ) {
+                                    val r: Int = binaryToInt(toBinary(byteToInt(arrayOf(data?.get(0), data?.get(1)))/100))
+                                    val time: Int = binaryToInt(toBinary(byteToInt(arrayOf(data?.get(2), data?.get(3),data?.get(4), data?.get(5)))))
+                                    Log.d("appconfig","notification time = $time")
+                                    Log.d("appconfig","notification temp = ${r}")
                                 }
 
                             })
@@ -120,7 +144,7 @@ class BluetoothServer(application: Application) {
                         gatt: BluetoothGatt?,
                         status: Int
                     ) {
-                        Timber.d("Disconnect!")
+                        Log.d("appconfig","Disconnect!")
                     }
 
                 })
@@ -130,12 +154,12 @@ class BluetoothServer(application: Application) {
                 val serviceList = gatt.services
                 for (service in serviceList) {
                     val uuid = service.uuid
-                    Timber.d(uuid.toString())
-                    Timber.d( "uuds8::::::::::::::::::::::::::::::::::::)")
+                    Log.d("appconfig",uuid.toString())
+                    Log.d("appconfig","uuds8::::::::::::::::::::::::::::::::::::)")
                     val characteristicList = service.characteristics
                     for (char in characteristicList) {
                         val UUID_CHAR = char.uuid
-                        Timber.d("CHAR_UUID = $UUID_CHAR")
+                        Log.d("appconfig","CHAR_UUID = $UUID_CHAR")
                     }
 
                 }

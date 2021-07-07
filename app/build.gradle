@@ -71,15 +71,15 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
 
     implementation 'com.google.dagger:hilt-android:2.37'
-    annotationProcessor 'com.google.dagger:hilt-compiler:2.37'
+    kapt 'com.google.dagger:hilt-compiler:2.37'
 
     // For instrumentation tests
     androidTestImplementation  'com.google.dagger:hilt-android-testing:2.37'
-    androidTestAnnotationProcessor 'com.google.dagger:hilt-compiler:2.37'
+    kaptAndroidTest 'com.google.dagger:hilt-compiler:2.37'
 
     // For local unit tests
     testImplementation 'com.google.dagger:hilt-android-testing:2.37'
-    testAnnotationProcessor 'com.google.dagger:hilt-compiler:2.37'
+    kaptTest 'com.google.dagger:hilt-compiler:2.37'
 
     implementation 'com.github.weliem:blessed-android-coroutines:0.0.3'
 

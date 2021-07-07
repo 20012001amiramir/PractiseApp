@@ -4,23 +4,24 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
     }
     dependencies {
         def nav_version = "2.3.5"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
-        def hilt_version = "2.35"
+
+        def hilt_version = "2.37"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath "com.android.tools.build:gradle:4.2.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
+
 allprojects {
     repositories {
         google()
-        maven { url 'https://jitpack.io' }
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
+        maven{ url 'https://jitpack.io'}
+        jcenter()
     }
 }
 

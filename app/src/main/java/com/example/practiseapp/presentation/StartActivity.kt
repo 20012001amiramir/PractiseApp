@@ -19,7 +19,6 @@ class StartActivity : AppCompatActivity() {
 
     @Inject
     lateinit var sessionManager: SessionManager
-    var sInstance: Context = baseContext
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +30,6 @@ class StartActivity : AppCompatActivity() {
             WelcomeActivity.start(this)
             finish()
         }
-    }
-
-    fun getInstance(): Context? {
-        return sInstance
     }
 
     companion object {
