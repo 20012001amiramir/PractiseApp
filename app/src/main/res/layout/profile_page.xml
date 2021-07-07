@@ -72,4 +72,5 @@
         app:layout_constraintBottom_toBottomOf="@+id/btn_logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btn_logout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

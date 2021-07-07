@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.practiseapp.databinding.ProfilePageBinding
 import com.example.practiseapp.domain.common.Result
 import com.example.practiseapp.presentation.StartActivity
+import com.example.practiseapp.databinding.SettingPageBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
