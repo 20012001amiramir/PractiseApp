@@ -5,7 +5,6 @@ import com.example.practiseapp.Constants
 import com.example.practiseapp.domain.entities.AccountUser
 import com.example.practiseapp.domain.repositories.IAuthRepository
 import com.example.practiseapp.data.network.AuthApi
-import com.example.practiseapp.data.network.dto.LogoutStatus
 import com.example.practiseapp.domain.common.Result
 import com.example.practiseapp.domain.entities.LoggedUser
 import com.example.practiseapp.domain.entities.SessionManager
@@ -19,7 +18,6 @@ class AuthRepository @Inject constructor(
     private val sessionManager: SessionManager,
     private val loggedUser: LoggedUser
 ) : IAuthRepository {
-    // TODO add token and user data persistence
     override suspend fun signIn(accountUser: AccountUser): Result<String> =
         withContext(Dispatchers.IO) {
             try {
@@ -28,9 +26,10 @@ class AuthRepository @Inject constructor(
                 )
                 return@withContext if (userResponse.isSuccessful) {
                     val token = userResponse.body()!!.token
-                    // sessionManager.saveAuthToken(token)
-                    // loggedUser
-                    Log.d(Constants.TOKEN_LOG, "TOKEN VALUE: $token")
+                    sessionManager.saveAuthToken(token)
+                    loggedUser.accountUser = AccountUserApiMapper.toUser(userResponse.body()!!)
+                    Log.d(Constants.TOKEN_LOG, "TOKEN VALUE: ${sessionManager.fetchAuthToken()}")
+                    Log.d(Constants.LOGGED_USER, "LOGGED_USER: ${loggedUser.accountUser.toString()}")
                     Result.Success(token)
                 } else {
                     Result.Failure(Exception(userResponse.message()))
@@ -39,7 +38,6 @@ class AuthRepository @Inject constructor(
                 return@withContext Result.Failure(e)
             }
         }
-
 
     override suspend fun signUp(accountUser: AccountUser): Result<AccountUser> =
         withContext(Dispatchers.IO) {
@@ -58,8 +56,22 @@ class AuthRepository @Inject constructor(
 
         }
 
-    override suspend fun signOut(): Result<LogoutStatus> {
-        TODO("Not yet implemented")
-    }
-    //TODO:Rewrite with exceptions
+    override suspend fun signOut(): Result<Int> =
+        withContext(Dispatchers.IO) {
+            try {
+                val logoutResponse = authApi.signOut()
+                val responseCode = logoutResponse.code()
+                return@withContext if (logoutResponse.isSuccessful) {
+                    sessionManager.deleteToken()
+                    Log.d(Constants.TOKEN_LOG, "TOKEN VALUE: ${sessionManager.fetchAuthToken()}")
+                    loggedUser.accountUser = null
+                    Log.d(Constants.LOGGED_USER, "LOGGED_USER: ${loggedUser.accountUser.toString()}")
+                    Result.Success(responseCode)
+                } else {
+                    Result.Failure(Exception("$responseCode code"))
+                }
+            } catch (e: Exception) {
+                return@withContext Result.Failure(e)
+            }
+        }
 }

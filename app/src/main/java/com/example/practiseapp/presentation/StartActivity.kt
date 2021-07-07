@@ -5,13 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.welie.blessed.BluetoothCentralManager
-import com.welie.blessed.ConnectionFailedException
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.util.*
 import com.example.practiseapp.Constants
 import com.example.practiseapp.domain.entities.SessionManager
 import com.example.practiseapp.presentation.main.MainActivity
