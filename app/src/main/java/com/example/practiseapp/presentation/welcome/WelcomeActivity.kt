@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class WelcomeActivity : AppCompatActivity() {
 
-    private lateinit var navController: NavController
+    lateinit var navController: NavController
     private lateinit var binding: ActivityWelcomeBinding
     private val welcomeViewModel: WelcomeViewModel by viewModels()
 
