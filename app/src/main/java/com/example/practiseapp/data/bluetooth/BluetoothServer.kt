@@ -10,10 +10,9 @@ import com.clj.fastble.callback.BleScanCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
 import com.clj.fastble.scan.BleScanRuleConfig
+import com.example.practiseapp.Constants.MEASURE_SERVICE_UUID
+import com.example.practiseapp.Constants.TEMP_CHAR_UUID
 import timber.log.Timber
-
-private val MEASURE_SERVICE_UUID = "0000d03a-0000-1000-8000-00805f9b34fb"
-private val TEMP_CHAR_UUID = "0000ffed-0000-1000-8000-00805f9b34fb"
 
 class BluetoothServer(application: Application) {
     private lateinit var devices: MutableList<BleDevice>
@@ -71,6 +70,7 @@ class BluetoothServer(application: Application) {
                     ) {
                         Timber.d("Connect!")
                         Timber.d(bleDevice?.device?.address?.toString() ?: "empty")
+                        gatt?.let { transferData(it) }
                         Timber.d("")
                         ble.read(
                             bleDevice!!,
@@ -106,7 +106,6 @@ class BluetoothServer(application: Application) {
                                     for (byte in data) {
                                         output = "$output${byte}:"
                                     }
-//                        00010010-00100001
                                     Timber.d("decoded byte array = ${data.decodeToString()}")
                                     Timber.d("notification bytes = $output")
                                     Timber.d("notification temp = ${x}")
@@ -126,6 +125,22 @@ class BluetoothServer(application: Application) {
 
                 })
             }
+
+            private fun transferData(gatt: BluetoothGatt) {
+                val serviceList = gatt.services
+                for (service in serviceList) {
+                    val uuid = service.uuid
+                    Timber.d(uuid.toString())
+                    Timber.d( "uuds8::::::::::::::::::::::::::::::::::::)")
+                    val characteristicList = service.characteristics
+                    for (char in characteristicList) {
+                        val UUID_CHAR = char.uuid
+                        Timber.d("CHAR_UUID = $UUID_CHAR")
+                    }
+
+                }
+            }
         })
+
     }
 }

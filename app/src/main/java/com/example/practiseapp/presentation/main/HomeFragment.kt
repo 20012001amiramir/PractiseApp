@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.practiseapp.R
+import com.example.practiseapp.data.bluetooth.BluetoothServer
 import com.example.practiseapp.databinding.HomePageBinding
 import com.example.practiseapp.databinding.LoginPageBinding
 
@@ -27,6 +28,10 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        BluetoothServer(requireActivity().application).connectBluetooth()
+    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
