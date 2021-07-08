@@ -6,5 +6,6 @@ data class AccountUser(
     val email: String = "",
     val firstName: String = "",
     val lastName: String = "",
-    val password: String = ""
+    val password: String = "",
+    var imageURI: String? = null
 )

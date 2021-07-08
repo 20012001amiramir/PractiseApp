@@ -3,6 +3,7 @@ package com.example.practiseapp.data.di
 import com.example.practiseapp.Constants
 import com.example.practiseapp.data.di.qualifiers.AuthInterceptorMain
 import com.example.practiseapp.data.network.AuthApi
+import com.example.practiseapp.data.network.UserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,4 +46,9 @@ class NetworkModule {
         return retrofit.build().create(AuthApi::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun provideUserInterface(retrofit: Retrofit.Builder): UserApi {
+        return retrofit.build().create(UserApi::class.java)
+    }
 }

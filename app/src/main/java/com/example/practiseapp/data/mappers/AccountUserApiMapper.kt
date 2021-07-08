@@ -1,9 +1,6 @@
 package com.example.practiseapp.data.mappers
 
-import com.example.practiseapp.data.network.dto.UserSignInResponse
-import com.example.practiseapp.data.network.dto.UserSignIn
-import com.example.practiseapp.data.network.dto.UserSignUp
-import com.example.practiseapp.data.network.dto.UserSignUpResponse
+import com.example.practiseapp.data.network.dto.*
 import com.example.practiseapp.domain.entities.AccountUser
 
 object AccountUserApiMapper {
@@ -22,17 +19,26 @@ object AccountUserApiMapper {
     )
 
     fun toUser(userSignInResponse: UserSignInResponse) = AccountUser(
+        id = userSignInResponse.data.id.toString(),
         username = userSignInResponse.data.username,
         email = userSignInResponse.data.email,
         firstName = userSignInResponse.data.firstName,
-        lastName = userSignInResponse.data.lastName,
+        lastName = userSignInResponse.data.lastName
     )
 
     fun toUser(userSignUpResponse: UserSignUpResponse) = AccountUser(
         username = userSignUpResponse.username,
         email = userSignUpResponse.email,
         firstName = userSignUpResponse.firstName,
-        lastName = userSignUpResponse.lastName,
-
+        lastName = userSignUpResponse.lastName
     )
+
+    fun toUser(userGetResponse: UserGetResponse) = AccountUser(
+        id = userGetResponse.id.toString(),
+        username = userGetResponse.username,
+        email = userGetResponse.email,
+        firstName = userGetResponse.firstName,
+        lastName = userGetResponse.lastName
+    )
+
 }

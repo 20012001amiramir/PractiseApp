@@ -1,9 +1,11 @@
 package com.example.practiseapp.data.di
 
-import com.example.practiseapp.data.di.qualifiers.SignInUseCaseMain
-import com.example.practiseapp.data.di.qualifiers.SignOutUseCaseMain
-import com.example.practiseapp.data.di.qualifiers.SignUpUseCaseMain
+import com.example.practiseapp.data.di.qualifiers.*
 import com.example.practiseapp.domain.usecases.AuthUseCases.*
+import com.example.practiseapp.domain.usecases.ProfileUseCases.GetUserUseCase
+import com.example.practiseapp.domain.usecases.ProfileUseCases.IGetUserUseCase
+import com.example.practiseapp.domain.usecases.ProfileUseCases.ISaveImageUseCase
+import com.example.practiseapp.domain.usecases.ProfileUseCases.SaveImageUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,6 +15,20 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class UseCaseModule {
+
+    @SaveImageUseCaseMain
+    @Singleton
+    @Binds
+    abstract fun provideSaveImageUseCaseMain(
+        saveImageUseCase: SaveImageUseCase
+    ): ISaveImageUseCase
+
+    @GetUserUseCaseMain
+    @Singleton
+    @Binds
+    abstract fun provideGetUserUseCaseMain(
+        getUserUseCase: GetUserUseCase
+    ): IGetUserUseCase
 
     @SignOutUseCaseMain
     @Singleton
