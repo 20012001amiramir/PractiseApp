@@ -1,5 +1,6 @@
 package com.example.practiseapp.data.bluetooth
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.bluetooth.BluetoothGatt
 import android.util.Log
@@ -13,7 +14,8 @@ import com.clj.fastble.exception.BleException
 import com.clj.fastble.scan.BleScanRuleConfig
 import com.example.practiseapp.Constants.MEASURE_SERVICE_UUID
 import com.example.practiseapp.Constants.TEMP_CHAR_UUID
-import java.nio.ByteBuffer
+import java.sql.Time
+import java.time.LocalTime
 
 
 class BluetoothServer(application: Application) {
@@ -127,12 +129,19 @@ class BluetoothServer(application: Application) {
                                     }
                                     return returnedInt
                                 }
-
-                                override fun onCharacteristicChanged(data: ByteArray? ) {
-                                    val r: Int = binaryToInt(toBinary(byteToInt(arrayOf(data?.get(0), data?.get(1)))/100))
-                                    val time: Int = binaryToInt(toBinary(byteToInt(arrayOf(data?.get(2), data?.get(3),data?.get(4), data?.get(5)))))
+                                fun toInteger(array: Array<Byte>): String{
+                                    var str: String = ""
+                                    array.forEach() { x ->
+                                        str += toBinary(x.toInt())
+                                    }
+                                    return str
+                                }
+                                @SuppressLint("LogNotTimber")
+                                override fun onCharacteristicChanged(data: ByteArray ) {
+                                    val temp: Double = binaryToInt(toInteger(arrayOf(data[0],data[1]))).toDouble()/100
+                                    val time: String = LocalTime.now().toString()
                                     Log.d("appconfig","notification time = $time")
-                                    Log.d("appconfig","notification temp = ${r}")
+                                    Log.d("appconfig","notification temp = $temp")
                                 }
 
                             })
