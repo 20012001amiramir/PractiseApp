@@ -43,13 +43,15 @@ class RegisterFragment : Fragment() {
     }
 
     private fun subscribeObservers() {
-        welcomeViewModel.userData.observe(viewLifecycleOwner) { userData ->
-            when (userData) {
-                is Result.Success -> {
-                    Toast.makeText(context, userData.data.toString(), Toast.LENGTH_LONG).show()
-                }
-                is Result.Failure -> {
-                    Toast.makeText(context, userData.exception.message, Toast.LENGTH_LONG).show()
+        welcomeViewModel.userData.observe(viewLifecycleOwner) { consumable ->
+            consumable.consume {
+                when (it) {
+                    is Result.Success -> {
+                        Toast.makeText(context, it.data.toString(), Toast.LENGTH_LONG).show()
+                    }
+                    is Result.Failure -> {
+                        Toast.makeText(context, it.exception.message, Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }

@@ -1,9 +1,7 @@
 package com.example.practiseapp.data.network
 
-import com.example.practiseapp.data.network.dto.UserSignInResponse
-import com.example.practiseapp.data.network.dto.UserSignIn
-import com.example.practiseapp.data.network.dto.UserSignUp
-import com.example.practiseapp.data.network.dto.UserSignUpResponse
+import com.example.practiseapp.data.network.dto.*
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
@@ -24,4 +22,11 @@ interface AuthApi {
         )
         @POST("login/")
         suspend fun signIn(@Body dto: UserSignIn): Response<UserSignInResponse>
+
+        @Headers(
+            "Content-Type: application/json",
+            "Accept: application/json"
+        )
+        @POST("logout/")
+        suspend fun signOut(): Response<ResponseBody>
 }

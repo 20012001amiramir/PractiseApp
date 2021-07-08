@@ -5,20 +5,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.practiseapp.R
-import com.example.practiseapp.databinding.HomePageBinding
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import com.example.practiseapp.databinding.ProfilePageBinding
+import com.example.practiseapp.domain.common.Result
+import com.example.practiseapp.presentation.StartActivity
 import com.example.practiseapp.databinding.SettingPageBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private var _binding: ProfilePageBinding? = null
     private val binding get() = _binding!!
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +31,35 @@ class ProfileFragment : Fragment() {
     ): View {
         _binding = ProfilePageBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        subscribeObservers()
+        binding.btnLogout.setOnClickListener {
+            mainViewModel.signOut()
+        }
+        binding.btnDeleteToken.setOnClickListener {
+            deleteTokenAndGoToStart()
+        }
+    }
+
+    private fun deleteTokenAndGoToStart() {
+        mainViewModel.deleteToken()
+        StartActivity.start(requireActivity())
+    }
+
+    private fun subscribeObservers() {
+        mainViewModel.logoutStatus.observe(viewLifecycleOwner) { status ->
+            when (status) {
+                is Result.Success -> {
+                    StartActivity.start(requireActivity())
+                }
+                is Result.Failure -> {
+                    Toast.makeText(context, "$status code", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     override fun onDestroy() {

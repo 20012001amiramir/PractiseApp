@@ -4,8 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import com.clj.fastble.data.BleDevice
+import dagger.hilt.android.AndroidEntryPoint
 import com.example.practiseapp.Constants
 import com.example.practiseapp.domain.entities.SessionManager
 import com.example.practiseapp.presentation.main.MainActivity

@@ -10,5 +10,5 @@ interface IAuthRepository {
 
     suspend fun signUp(accountUser: AccountUser): Result<AccountUser>
 
-    suspend fun signOut(): Result<LogoutStatus>
+    suspend fun signOut(): Result<Int>
 }
