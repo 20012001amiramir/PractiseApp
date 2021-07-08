@@ -78,13 +78,14 @@ dependencies {
     androidTestImplementation  'com.google.dagger:hilt-android-testing:2.37'
     kaptAndroidTest 'com.google.dagger:hilt-compiler:2.37'
 
+    //AndroidCharts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
     // For local unit tests
     testImplementation 'com.google.dagger:hilt-android-testing:2.37'
     kaptTest 'com.google.dagger:hilt-compiler:2.37'
 
     implementation 'com.github.weliem:blessed-android-coroutines:0.0.3'
-
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'

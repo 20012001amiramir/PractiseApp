@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import dagger.hilt.android.AndroidEntryPoint
+import androidx.appcompat.app.AppCompatActivity
 import com.example.practiseapp.Constants
 import com.example.practiseapp.domain.entities.SessionManager
 import com.example.practiseapp.presentation.main.MainActivity

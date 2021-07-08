@@ -1,4 +1,4 @@
-package com.example.practiseapp.data.bluetooth
+package com.example.practiseapp.features.bluetooth
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -14,10 +14,9 @@ import com.clj.fastble.exception.BleException
 import com.clj.fastble.scan.BleScanRuleConfig
 import com.example.practiseapp.Constants.MEASURE_SERVICE_UUID
 import com.example.practiseapp.Constants.TEMP_CHAR_UUID
-import java.sql.Time
 import java.time.LocalTime
 
-
+@SuppressLint("LogNotTimber")
 class BluetoothServer(application: Application) {
     private lateinit var devices: MutableList<BleDevice>
     private var _app = application
@@ -103,13 +102,6 @@ class BluetoothServer(application: Application) {
                                 override fun onNotifyFailure(exception: BleException?) {
                                     Log.d("appconfig","failure")
                                 }
-                                fun byteToInt(bytes: Array<Byte?>): Int {
-                                    var result = 0
-                                    for (i in bytes.indices) {
-                                        result = result or ((bytes[i]?.toInt())?.shl(8 * i)!!)
-                                    }
-                                    return result
-                                }
                                 fun toBinary(value: Int): String{
                                     var number = value
                                     if(value < 0) number+=255
@@ -130,13 +122,12 @@ class BluetoothServer(application: Application) {
                                     return returnedInt
                                 }
                                 fun toInteger(array: Array<Byte>): String{
-                                    var str: String = ""
-                                    array.forEach() { x ->
+                                    var str = ""
+                                    array.forEach { x ->
                                         str += toBinary(x.toInt())
                                     }
                                     return str
                                 }
-                                @SuppressLint("LogNotTimber")
                                 override fun onCharacteristicChanged(data: ByteArray ) {
                                     val temp: Double = binaryToInt(toInteger(arrayOf(data[0],data[1]))).toDouble()/100
                                     val time: String = LocalTime.now().toString()
