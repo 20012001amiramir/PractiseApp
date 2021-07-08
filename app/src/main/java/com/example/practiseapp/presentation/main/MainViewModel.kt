@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.practiseapp.data.di.qualifiers.SignOutUseCaseMain
 import com.example.practiseapp.domain.common.Result
-import com.example.practiseapp.domain.entities.SessionManager
+import com.example.practiseapp.domain.utils.SessionManager
 import com.example.practiseapp.domain.usecases.AuthUseCases.ISignOutUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ class MainViewModel @Inject constructor(
         get() = _logoutStatus
 
     fun signOut() = viewModelScope.launch {
-        _logoutStatus.postValue(signOutUseCase())
+        _logoutStatus.postValue(signOutUseCase()!!)
     }
 
     fun deleteToken() {

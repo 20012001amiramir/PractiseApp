@@ -3,7 +3,10 @@ package com.example.practiseapp.data.di
 import com.example.practiseapp.data.di.qualifiers.SignInUseCaseMain
 import com.example.practiseapp.data.di.qualifiers.SignOutUseCaseMain
 import com.example.practiseapp.data.di.qualifiers.SignUpUseCaseMain
+import com.example.practiseapp.data.di.qualifiers.TempUseCaseMain
 import com.example.practiseapp.domain.usecases.AuthUseCases.*
+import com.example.practiseapp.domain.usecases.tempUseCases.ITempUseCase
+import com.example.practiseapp.domain.usecases.tempUseCases.TempUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -34,4 +37,13 @@ abstract class UseCaseModule {
     abstract fun provideSignUpUseCaseMain(
         signUpUseCase: SignUpUseCase
     ): ISignUpUseCase
+
+    @TempUseCaseMain
+    @Singleton
+    @Binds
+    abstract fun provideTempUseCaseMain(
+        tempUseCase: TempUseCase
+    ): ITempUseCase
+
+
 }

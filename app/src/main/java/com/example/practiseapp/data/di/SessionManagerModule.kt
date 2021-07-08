@@ -1,7 +1,7 @@
 package com.example.practiseapp.data.di
 
 import android.content.Context
-import com.example.practiseapp.domain.entities.SessionManager
+import com.example.practiseapp.domain.utils.SessionManager
 
 import dagger.Module
 import dagger.Provides

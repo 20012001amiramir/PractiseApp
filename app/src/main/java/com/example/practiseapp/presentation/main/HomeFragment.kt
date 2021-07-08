@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.example.practiseapp.features.bluetooth.BluetoothServer
 import com.example.practiseapp.databinding.HomePageBinding
 import com.example.practiseapp.features.charts.AndroidChart
@@ -21,15 +22,16 @@ class HomeFragment : Fragment() {
     private var _binding: HomePageBinding? = null
     private val binding get() = _binding!!
     private var androidChart: AndroidChart = AndroidChart()
+    private val homeViewModel: HomeViewModel by activityViewModels()
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = HomePageBinding.inflate(inflater, container, false)
         binding.connectToDevice.setOnClickListener{
-            BluetoothServer(requireActivity().application).connectBluetooth()
-            binding.connectToDevice.visibility = View.INVISIBLE
-            binding.CardView.visibility = View.VISIBLE
+
         }
         return binding.root
 

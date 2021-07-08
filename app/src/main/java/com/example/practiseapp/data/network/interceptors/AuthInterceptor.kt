@@ -1,6 +1,6 @@
 package com.example.practiseapp.data.network.interceptors
 
-import com.example.practiseapp.domain.entities.SessionManager
+import com.example.practiseapp.domain.utils.SessionManager
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
