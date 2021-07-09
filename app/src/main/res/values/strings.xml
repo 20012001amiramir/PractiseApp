@@ -1,3 +1,47 @@
 <resources>
     <string name="app_name">PractiseApp</string>
+    <string name="demo_app">Demo App</string>
+
+    <string name="btn_start_log_in">Log In</string>
+    <string name="btn_start_register">Register</string>
+
+    <string name="tv_login_top">Login</string>
+    <string name="btn_login_login">Log in</string>
+    <string name="hint_login_username">Username</string>
+    <string name="hint_login_password">Password</string>
+
+    <string name="tv_login_failed_top">Failed to login</string>
+    <string name="tv_login_failed_cause">Wrong username or password</string>
+    <string name="btn_login_failed_retry">Try again</string>
+    <string name="btn_login_failed_register">Register</string>
+
+    <string name="tv_register_top">Register</string>
+    <string name="hint_register_email">E-mail</string>
+    <string name="hint_register_username">Username</string>
+    <string name="hint_register_password">Password</string>
+    <string name="hint_register_first_name">First name</string>
+    <string name="hint_register_last_name">Last name</string>
+    <string name="btn_register_register">Register</string>
+
+    <string name="tv_profile_top">Profile</string>
+    <string name="tv_profile_first_name">First name</string>
+    <string name="tv_profile_last_name">Last name</string>
+    <string name="btn_profile_logout">Log out</string>
+
+    <string name="tv_home_top">Home</string>
+    <string name="btn_home_connect">Connect to device</string>
+    <string name="tv_home_celsius">Celsius</string>
+    <string name="tv_home_temp">39.1</string>
+
+    <string name="tv_settings_top">Settings</string>
+    <string name="tv_settings_temp_settings">Temperature settings</string>
+    <string name="tv_settings_notifications">Push - notifications</string>
+    <string name="tv_settings_about">About application</string>
+
+    <string name="bnv_menu_profile">Profile</string>
+    <string name="bnv_menu_home">Home</string>
+    <string name="bnv_menu_settings">Settings</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
