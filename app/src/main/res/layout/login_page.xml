@@ -3,47 +3,74 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+
     <TextView
+        android:id="@+id/tv_login_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text="Login"
-        android:textSize="40dp"
-        app:layout_constraintBottom_toTopOf="@id/et_username"
+        android:text="@string/tv_login_top"
+        android:textSize="@dimen/dimen_tv_top"
+        app:layout_constraintBottom_toTopOf="@id/ti_username"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ti_username"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/ti_password"
+        app:layout_constraintTop_toTopOf="@id/tv_login_top"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_login_username"
+            android:textSize="@dimen/dimen_auth_et" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--<EditText
         android:id="@+id/et_username"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="50dp"
-        android:hint="username"
+        android:hint="@string/hint_login_username"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:inputType="textEmailAddress"
         android:padding="15dp"
-        android:textSize="15sp"
+        android:textSize="@dimen/dimen_auth_et"
         app:layout_constraintBottom_toTopOf="@id/et_password"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="20dp" />
+        tools:layout_editor_absoluteX="20dp" />-->
 
-    <EditText
-        android:id="@+id/et_password"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ti_password"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="password"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btn_login"
+        app:layout_constraintTop_toBottomOf="@id/ti_username"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:inputType="textPassword"
-        android:padding="15dp"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_login"
-        app:layout_constraintTop_toBottomOf="@id/et_username"
-        tools:layout_editor_absoluteX="20dp" />
+        app:passwordToggleEnabled="true">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_login_password"
+            android:inputType="textPassword"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
@@ -51,10 +78,10 @@
         android:padding="15dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text="@string/log_in"
+        android:text="@string/btn_login_login"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_username"
+        app:layout_constraintTop_toBottomOf="@+id/ti_username"
         tools:layout_editor_absoluteX="20dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

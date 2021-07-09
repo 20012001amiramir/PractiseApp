@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="50dp"
-        android:text="Profile"
-        android:textSize="50dp"
+        android:text="@string/tv_profile_top"
+        android:textSize="@dimen/dimen_tv_top"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:padding="5dp"
-        android:text="Name"
+        android:text="@string/tv_profile_first_name"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/second_name"
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="Second name"
+        android:text="@string/tv_profile_last_name"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/btn_logout"
@@ -59,18 +59,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:backgroundTint="@color/grey"
-        android:text="Logout"
+        android:text="@string/btn_profile_logout"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/second_name" />
-
-    <Button
-        android:id="@+id/btn_delete_token"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete token"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_logout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

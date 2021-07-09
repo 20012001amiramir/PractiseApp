@@ -8,14 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/coral"
-        android:layout_marginBottom="100dp"
-        />
+        android:layout_marginBottom="100dp" />
     <TextView
         android:id="@+id/tv_preview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/demo_app"
-        android:textSize="30dp"
+        android:textSize="@dimen/dimen_tv_top"
         android:textStyle="bold"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,19 +27,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="@string/log_in"
+        android:text="@string/btn_start_log_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_start_register"
-
-        />
+        app:layout_constraintStart_toEndOf="@+id/btn_start_register" />
 
     <Button
         android:id="@+id/btn_start_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Register"
+        android:text="@string/btn_start_register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_start_login"
         app:layout_constraintStart_toStartOf="parent" />

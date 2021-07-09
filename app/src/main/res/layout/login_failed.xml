@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,9 +19,9 @@
         android:layout_marginTop="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
+        android:textSize="@dimen/dimen_tv_top"
         android:textStyle="bold"
-        android:text="Failed to login"
+        android:text="@string/tv_login_failed_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_login_failed" />
@@ -30,10 +29,10 @@
     <TextView
         android:id="@+id/tv_cause"
         android:layout_marginTop="50dp"
-        android:textSize="20sp"
+        android:textSize="@dimen/dimen_login_failed_cause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Wrong username or password"
+        android:text="@string/tv_login_failed_cause"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_failed_to_login" />
@@ -43,21 +42,20 @@
         android:layout_marginTop="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Try again"
+        android:text="@string/btn_login_failed_retry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_cause" />
 
-    <ImageButton
+    <Button
         android:id="@+id/btn_register"
         android:layout_marginTop="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        android:src="@drawable/button_failed_login_to_register"
+        android:backgroundTint="@color/grey"
+        android:text="@string/btn_login_failed_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_retry_login"
-        android:contentDescription="TODO" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_retry_login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

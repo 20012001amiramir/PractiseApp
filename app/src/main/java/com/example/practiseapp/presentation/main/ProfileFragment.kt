@@ -25,7 +25,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import javax.inject.Inject
 
-
 private const val GALLERY_REQUEST = 1
 private const val REQUEST_EXTERNAL_STORAGE = 1
 private val PERMISSIONS_STORAGE = arrayOf(
@@ -72,9 +71,6 @@ class ProfileFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
             mainViewModel.signOut()
         }
-        binding.btnDeleteToken.setOnClickListener {
-            deleteTokenAndGoToStart()
-        }
         binding.btnImage.setOnClickListener {
 
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
@@ -101,11 +97,6 @@ class ProfileFragment : Fragment() {
 
             }
         }
-    }
-
-    private fun deleteTokenAndGoToStart() {
-        mainViewModel.deleteToken()
-        StartActivity.start(requireActivity())
     }
 
     private fun subscribeObservers() {
