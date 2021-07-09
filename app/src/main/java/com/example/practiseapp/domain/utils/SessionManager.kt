@@ -1,4 +1,4 @@
-package com.example.practiseapp.domain.entities
+package com.example.practiseapp.domain.utils
 
 import android.content.Context
 import android.content.SharedPreferences

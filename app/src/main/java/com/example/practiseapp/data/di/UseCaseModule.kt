@@ -50,4 +50,5 @@ abstract class UseCaseModule {
     abstract fun provideSignUpUseCaseMain(
         signUpUseCase: SignUpUseCase
     ): ISignUpUseCase
+
 }

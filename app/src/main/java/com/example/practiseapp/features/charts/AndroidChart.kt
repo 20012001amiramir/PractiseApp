@@ -9,22 +9,24 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
 class AndroidChart {
-    private lateinit var temperatures: ArrayList<Entry>
-    private lateinit var lineChart: LineChart
-    private lateinit var dataSets: ArrayList<ILineDataSet>
-    private lateinit var lineDataSet : LineDataSet
-    public fun initChart(array : ArrayList<Entry>, lineChart: LineChart){
-        lineDataSet = LineDataSet(array,"Temperature")
-        lineDataSet.color = Color.Red.toArgb()
-        lineChart.setBackgroundColor(Color.White.toArgb())
-        lineChart.axisLeft.setDrawAxisLine(false)
-        dataSets = arrayListOf()
-        dataSets.add(lineDataSet)
-        val data = LineData(dataSets)
-        lineChart.animateX(1000)
-        lineChart.data = data
+    private var _temperatures: ArrayList<Entry> = arrayListOf()
+    private var _dataSets: ArrayList<ILineDataSet> = arrayListOf()
+    private lateinit var _lineChart: LineChart
+    private lateinit var _lineDataSet : LineDataSet
+    fun initChart(array : ArrayList<Entry>, lineChart: LineChart){
+        _lineChart = lineChart
+        _temperatures = array
+        _lineDataSet = LineDataSet(_temperatures,"Temperature")
+        _lineDataSet.color = Color.Red.toArgb()
+        _lineChart.setBackgroundColor(Color.White.toArgb())
+        _lineChart.axisLeft.setDrawAxisLine(false)
+        _dataSets.add(0,_lineDataSet)
+        val data = LineData(_dataSets)
+        _lineChart.data = data
     }
-    public fun setNewData(entry: Entry){
-        
+    fun updateChart(entry: Entry){
+        _lineChart.lineData.addEntry(entry,0)
+        _lineChart.notifyDataSetChanged()
+        _lineChart.setBackgroundColor(Color.White.toArgb())
     }
 }
