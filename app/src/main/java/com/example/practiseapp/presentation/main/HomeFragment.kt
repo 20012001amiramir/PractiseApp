@@ -28,18 +28,8 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    private fun initChartActivity(lineChart: LineChart){
-        val array = arrayListOf<Entry>(Entry(0F, 0F))
-        array.add(Entry(0F, 50F))
-        array.add(Entry(1F, 50F))
-        array.add(Entry(2F, 100F))
-        array.add(Entry(3F, 0F))
-        androidChart.initChart(array,lineChart)
-    }
-
     override fun onStart() {
         super.onStart()
-        initChartActivity(binding.anyChartView)
     }
 
     override fun onDestroy() {
