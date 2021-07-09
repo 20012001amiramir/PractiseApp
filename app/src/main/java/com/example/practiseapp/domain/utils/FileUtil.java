@@ -1,4 +1,4 @@
-package com.example.practiseapp;
+package com.example.practiseapp.domain.utils;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;

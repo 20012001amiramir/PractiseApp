@@ -7,9 +7,9 @@ import com.example.practiseapp.data.mappers.UserEntityMapper
 import com.example.practiseapp.data.network.UserApi
 import com.example.practiseapp.domain.common.Result
 import com.example.practiseapp.domain.entities.AccountUser
-import com.example.practiseapp.domain.entities.ImageManager
 import com.example.practiseapp.domain.entities.LoggedUser
 import com.example.practiseapp.domain.repositories.IUserRepository
+import com.example.practiseapp.domain.utils.ImageManager
 import com.example.practiseapp.domain.utils.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
-import com.example.practiseapp.features.bluetooth.BluetoothServer
 import androidx.fragment.app.Fragment
 import com.example.practiseapp.databinding.HomePageBinding
 import com.example.practiseapp.features.bluetooth.BluetoothServer

@@ -1,7 +1,7 @@
 package com.example.practiseapp.data.di
 
 import android.content.Context
-import com.example.practiseapp.domain.entities.ImageManager
+import com.example.practiseapp.domain.utils.ImageManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

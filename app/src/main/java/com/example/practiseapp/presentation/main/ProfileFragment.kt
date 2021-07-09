@@ -16,9 +16,9 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.practiseapp.Constants
-import com.example.practiseapp.FileUtil
 import com.example.practiseapp.databinding.ProfilePageBinding
 import com.example.practiseapp.domain.common.Result
+import com.example.practiseapp.domain.utils.FileUtil
 import com.example.practiseapp.presentation.StartActivity
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -138,7 +138,6 @@ class ProfileFragment : Fragment() {
     }
 
     companion object {
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() = ProfileFragment()
     }
