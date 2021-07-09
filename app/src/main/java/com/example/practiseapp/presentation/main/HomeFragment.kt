@@ -21,8 +21,6 @@ class HomeFragment : Fragment() {
 
     private var _binding: HomePageBinding? = null
     private val binding get() = _binding!!
-    private var androidChart: AndroidChart = AndroidChart()
-    private val homeViewModel: HomeViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -31,23 +29,12 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = HomePageBinding.inflate(inflater, container, false)
         binding.connectToDevice.setOnClickListener{
-
+            BluetoothServer(requireActivity().application, binding).connectBluetooth()
         }
         return binding.root
-
-    }
-    private fun initChartActivity(lineChart: LineChart){
-        val array = arrayListOf<Entry>(Entry(0F, 0F))
-        array.add(Entry(0F, 50F))
-        array.add(Entry(1F, 50F))
-        array.add(Entry(2F, 100F))
-        array.add(Entry(3F, 0F))
-        androidChart.initChart(array,lineChart)
     }
     override fun onStart() {
         super.onStart()
-
-        initChartActivity(binding.anyChartView)
     }
     override fun onDestroy() {
         super.onDestroy()

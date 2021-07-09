@@ -20,12 +20,13 @@ class AndroidChart {
         _lineDataSet.color = Color.Red.toArgb()
         _lineChart.setBackgroundColor(Color.White.toArgb())
         _lineChart.axisLeft.setDrawAxisLine(false)
-        _dataSets.add(_lineDataSet)
+        _dataSets.add(0,_lineDataSet)
         val data = LineData(_dataSets)
-        _lineChart.animateX(1000)
         _lineChart.data = data
     }
-    public fun setNewData(entry: Entry){
-        
+    fun updateChart(entry: Entry){
+        _lineChart.lineData.addEntry(entry,0)
+        _lineChart.notifyDataSetChanged()
+        _lineChart.setBackgroundColor(Color.White.toArgb())
     }
 }

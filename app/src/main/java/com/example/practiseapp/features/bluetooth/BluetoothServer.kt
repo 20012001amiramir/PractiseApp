@@ -9,24 +9,28 @@ import android.widget.Toast
 import com.clj.fastble.BleManager
 import com.clj.fastble.callback.BleGattCallback
 import com.clj.fastble.callback.BleNotifyCallback
-import com.clj.fastble.callback.BleReadCallback
 import com.clj.fastble.callback.BleScanCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
 import com.clj.fastble.scan.BleScanRuleConfig
 import com.example.practiseapp.Constants.MEASURE_SERVICE_UUID
 import com.example.practiseapp.Constants.TEMP_CHAR_UUID
-import com.example.practiseapp.databinding.ActivityMainBinding
 import com.example.practiseapp.databinding.HomePageBinding
+import com.example.practiseapp.features.charts.AndroidChart
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.data.Entry
 import java.time.LocalTime
-import javax.security.auth.callback.Callback
 
 @SuppressLint("LogNotTimber")
 class BluetoothServer(application: Application, binding: HomePageBinding) {
     private lateinit var devices: MutableList<BleDevice>
     private var _app = application
     private var _binding = binding
+    private var androidChart: AndroidChart = AndroidChart()
+    private var dataEntry: ArrayList<Entry> = arrayListOf()
+
     fun connectBluetooth() {
+
         val ble = BleManager.getInstance()
         ble.init(_app)
         ble.enableLog(true)
@@ -47,6 +51,7 @@ class BluetoothServer(application: Application, binding: HomePageBinding) {
         ble.initScanRule(scanRuleConfig)
         ble.scan(object : BleScanCallback() {
             override fun onScanStarted(success: Boolean) {
+                initChartActivity(dataEntry, _binding.anyChartView)
                 _binding.CardView.visibility = View.INVISIBLE
                 _binding.connectToDevice.visibility = View.INVISIBLE
                 _binding.progressBar.visibility = View.VISIBLE
@@ -79,7 +84,6 @@ class BluetoothServer(application: Application, binding: HomePageBinding) {
                         gatt: BluetoothGatt?,
                         status: Int
                     ) {
-
                         gatt?.let { transferData(it) }
                         ble.notify(
                             bleDevice,
@@ -93,16 +97,20 @@ class BluetoothServer(application: Application, binding: HomePageBinding) {
                                     Toast.makeText(_app.applicationContext,"Success to connect!",Toast.LENGTH_SHORT).show()
                                 }
                                 override fun onNotifyFailure(exception: BleException?) {
+                                    Toast.makeText(_app.applicationContext,"Disconnect!",Toast.LENGTH_SHORT).show()
+                                    binding.CardView.visibility = View.INVISIBLE
+                                    binding.connectToDevice.visibility = View.VISIBLE
+                                    binding.progressBar.visibility = View.INVISIBLE
                                 }
                                 override fun onCharacteristicChanged(data: ByteArray ) {
                                     val temp: Double = binaryToInt(toInteger(arrayOf(data[0],data[1]))).toDouble()/100
-                                    val time: String = LocalTime.now().toString()
-                                    Log.d("appconfig","notification time = $time")
-                                    Log.d("appconfig","notification temp = $temp")
+                                    val time: Float = LocalTime.now().hour.toFloat() + LocalTime.now().minute.toFloat()/100F + LocalTime.now().minute.toFloat()/10000F
+                                    androidChart.updateChart(Entry(time, temp.toFloat()))
+                                    _binding.TextNumber.text = temp.toString()
                                 }
-
                             })
                     }
+
                     override fun onDisConnected(
                         isActiveDisConnected: Boolean,
                         device: BleDevice?,
@@ -125,7 +133,6 @@ class BluetoothServer(application: Application, binding: HomePageBinding) {
             private fun binaryToInt(binaryDigits: String): Int {
                 val binaryValues = arrayListOf(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768)
                 val reversedDigits = binaryDigits.reversed()
-
                 var returnedInt = 0
                 var x = 0
                 for (i in reversedDigits){
@@ -156,6 +163,9 @@ class BluetoothServer(application: Application, binding: HomePageBinding) {
                     }
 
                 }
+            }
+            private fun initChartActivity(_array : ArrayList<Entry>, lineChart: LineChart){
+                androidChart.initChart(_array, lineChart)
             }
         })
 
