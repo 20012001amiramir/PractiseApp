@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dimen_tv_top">40sp</dimen>
+    <dimen name="dimen_auth_et">15sp</dimen>
+    <dimen name="dimen_login_failed_cause">25sp</dimen>
+</resources>

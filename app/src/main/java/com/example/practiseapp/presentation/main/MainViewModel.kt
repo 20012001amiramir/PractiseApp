@@ -22,8 +22,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     @SignOutUseCaseMain private val signOutUseCase: ISignOutUseCase,
     @GetUserUseCaseMain private val getUserUseCase: IGetUserUseCase,
-    @SaveImageUseCaseMain private val saveImageUseCase: ISaveImageUseCase,
-    private val sessionManager: SessionManager
+    @SaveImageUseCaseMain private val saveImageUseCase: ISaveImageUseCase
 ): ViewModel() {
 
     private val _logoutStatus = MutableLiveData<ConsumableValue<Result<Int>>>()
@@ -38,14 +37,10 @@ class MainViewModel @Inject constructor(
     }
 
     fun getUser() = viewModelScope.launch {
-        _userData.postValue(getUserUseCase())
+        _userData.postValue(getUserUseCase()!!)
     }
 
     fun signOut() = viewModelScope.launch {
         _logoutStatus.postValue(ConsumableValue(signOutUseCase()))
-    }
-
-    fun deleteToken() {
-        sessionManager.deleteToken()
     }
 }
