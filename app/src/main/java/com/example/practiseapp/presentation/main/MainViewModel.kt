@@ -10,10 +10,10 @@ import com.example.practiseapp.data.di.qualifiers.SignOutUseCaseMain
 import com.example.practiseapp.domain.common.ConsumableValue
 import com.example.practiseapp.domain.common.Result
 import com.example.practiseapp.domain.entities.AccountUser
-import com.example.practiseapp.domain.entities.SessionManager
 import com.example.practiseapp.domain.usecases.AuthUseCases.ISignOutUseCase
 import com.example.practiseapp.domain.usecases.ProfileUseCases.IGetUserUseCase
 import com.example.practiseapp.domain.usecases.ProfileUseCases.ISaveImageUseCase
+import com.example.practiseapp.domain.utils.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

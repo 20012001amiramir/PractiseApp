@@ -9,8 +9,8 @@ import com.example.practiseapp.data.network.AuthApi
 import com.example.practiseapp.domain.common.Result
 import com.example.practiseapp.domain.entities.AccountUser
 import com.example.practiseapp.domain.entities.LoggedUser
-import com.example.practiseapp.domain.entities.SessionManager
 import com.example.practiseapp.domain.repositories.IAuthRepository
+import com.example.practiseapp.domain.utils.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
