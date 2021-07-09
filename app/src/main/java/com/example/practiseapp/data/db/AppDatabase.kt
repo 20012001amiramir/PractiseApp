@@ -6,12 +6,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.practiseapp.data.db.temp.TempDao
+import com.example.practiseapp.data.db.user.UserDao
 import com.example.practiseapp.data.entities.temp.TempEntity
+import com.example.practiseapp.data.entities.user.UserEntity
 
-@Database(entities = [TempEntity::class], version = 1, exportSchema = false)
+@Database(entities = [TempEntity::class, UserEntity::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun tempDao(): TempDao
+    abstract fun userDao() : UserDao
 
     companion object {
         @Volatile
@@ -33,5 +36,4 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
     }
-
 }

@@ -4,8 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.example.practiseapp.Constants
 
-class SessionManager
-    constructor(context: Context) {
+class SessionManager constructor(context: Context) {
     private var prefs: SharedPreferences = context.getSharedPreferences(Constants.TOKEN_PREFS, Context.MODE_PRIVATE)
 
     fun saveAuthToken(token: String) {
@@ -21,6 +20,22 @@ class SessionManager
     fun deleteToken() {
         val editor = prefs.edit()
         editor.remove(Constants.TOKEN_VALUE)
+        editor.apply()
+    }
+
+    fun saveLoggedUserId(id: Long) {
+        val editor = prefs.edit()
+        editor.putLong(Constants.LOGGED_USER_ID, id)
+        editor.apply()
+    }
+
+    fun fetchLoggedUserId(): Long {
+        return prefs.getLong(Constants.LOGGED_USER_ID, -1)
+    }
+
+    fun deleteLoggedUserId() {
+        val editor = prefs.edit()
+        editor.remove(Constants.LOGGED_USER_ID)
         editor.apply()
     }
 }

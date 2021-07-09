@@ -1,22 +1,37 @@
 package com.example.practiseapp.presentation.main
 
+import android.Manifest
+import android.app.Activity.RESULT_OK
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.practiseapp.Constants
+import com.example.practiseapp.FileUtil
 import com.example.practiseapp.databinding.ProfilePageBinding
 import com.example.practiseapp.domain.common.Result
 import com.example.practiseapp.presentation.StartActivity
-import com.example.practiseapp.databinding.SettingPageBinding
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ApplicationContext
+import java.io.File
+import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+
+private const val GALLERY_REQUEST = 1
+private const val REQUEST_EXTERNAL_STORAGE = 1
+private val PERMISSIONS_STORAGE = arrayOf(
+    Manifest.permission.READ_EXTERNAL_STORAGE,
+    Manifest.permission.WRITE_EXTERNAL_STORAGE
+)
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -24,6 +39,10 @@ class ProfileFragment : Fragment() {
     private var _binding: ProfilePageBinding? = null
     private val binding get() = _binding!!
     private val mainViewModel: MainViewModel by activityViewModels()
+
+    @ApplicationContext
+    @Inject
+    lateinit var appContext: Context
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,12 +54,52 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val permission = ActivityCompat.checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                PERMISSIONS_STORAGE,
+                REQUEST_EXTERNAL_STORAGE
+            )
+        }
+
         subscribeObservers()
+
         binding.btnLogout.setOnClickListener {
             mainViewModel.signOut()
         }
         binding.btnDeleteToken.setOnClickListener {
             deleteTokenAndGoToStart()
+        }
+        binding.btnImage.setOnClickListener {
+
+            val photoPickerIntent = Intent(Intent.ACTION_PICK)
+            photoPickerIntent.type = "image/*"
+            startActivityForResult(photoPickerIntent, GALLERY_REQUEST)
+        }
+
+        mainViewModel.getUser()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            GALLERY_REQUEST -> if (resultCode == RESULT_OK) {
+                binding.btnImage.setImageURI(null)
+                val selectedImageUri: Uri = data!!.data!!
+                val path = FileUtil.getPath(selectedImageUri, requireContext())
+                binding.btnImage.setImageURI(selectedImageUri)
+                if (path != null) {
+                    mainViewModel.saveImage(path)
+                } else {
+                    Toast.makeText(context, "Path of selected image is null", Toast.LENGTH_LONG).show()
+                }
+
+            }
         }
     }
 
@@ -50,13 +109,33 @@ class ProfileFragment : Fragment() {
     }
 
     private fun subscribeObservers() {
-        mainViewModel.logoutStatus.observe(viewLifecycleOwner) { status ->
-            when (status) {
+        mainViewModel.logoutStatus.observe(viewLifecycleOwner) { consumable ->
+            consumable.consume {
+                when (it) {
+                    is Result.Success -> {
+                        StartActivity.start(requireActivity())
+                    }
+                    is Result.Failure -> {
+                        Toast.makeText(context, "${it.exception.message}", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+
+        }
+        mainViewModel.userData.observe(viewLifecycleOwner) { userData ->
+            when (userData) {
                 is Result.Success -> {
-                    StartActivity.start(requireActivity())
+                    binding.name.text = userData.data.firstName
+                    binding.secondName.text = userData.data.lastName
+                    val imageUri = userData.data.imageURI
+                    if (imageUri != null) {
+                        val photoURI = FileProvider.getUriForFile(appContext, Constants.APPLICATION_ID + ".provider", File(imageUri))
+                        binding.btnImage.setImageURI(photoURI)
+                    }
                 }
                 is Result.Failure -> {
-                    Toast.makeText(context, "$status code", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "${userData.exception.message}", Toast.LENGTH_LONG)
+                        .show()
                 }
             }
         }
@@ -68,22 +147,8 @@ class ProfileFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        fun newInstance() = ProfileFragment()
     }
 }

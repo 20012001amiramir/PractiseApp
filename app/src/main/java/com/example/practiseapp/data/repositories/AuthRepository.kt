@@ -2,32 +2,45 @@ package com.example.practiseapp.data.repositories
 
 import android.util.Log
 import com.example.practiseapp.Constants
-import com.example.practiseapp.domain.entities.AccountUser
-import com.example.practiseapp.domain.repositories.IAuthRepository
+import com.example.practiseapp.data.db.user.UserDao
+import com.example.practiseapp.data.mappers.AccountUserApiMapper
+import com.example.practiseapp.data.mappers.UserEntityMapper
 import com.example.practiseapp.data.network.AuthApi
 import com.example.practiseapp.domain.common.Result
+import com.example.practiseapp.domain.entities.AccountUser
 import com.example.practiseapp.domain.entities.LoggedUser
 import com.example.practiseapp.domain.entities.SessionManager
+import com.example.practiseapp.domain.repositories.IAuthRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import com.example.practiseapp.data.mappers.AccountUserApiMapper
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
     private val authApi: AuthApi,
     private val sessionManager: SessionManager,
-    private val loggedUser: LoggedUser
+    private val loggedUser: LoggedUser,
+    private val userDao: UserDao
 ) : IAuthRepository {
+
     override suspend fun signIn(accountUser: AccountUser): Result<String> =
         withContext(Dispatchers.IO) {
             try {
                 val userResponse = authApi.signIn(
                     AccountUserApiMapper.toUserSignInDto(accountUser)
                 )
-                return@withContext if (userResponse.isSuccessful) {
-                    val token = userResponse.body()!!.token
+                val responseBody = userResponse.body()
+                return@withContext if (userResponse.isSuccessful &&  responseBody != null) {
+                    val token = responseBody.token
+                    val userIdFromDB = userDao.insertUser(UserEntityMapper.toUserEntity(responseBody))
+                    val userFromDB = userDao.getUser(userIdFromDB)
                     sessionManager.saveAuthToken(token)
-                    loggedUser.accountUser = AccountUserApiMapper.toUser(userResponse.body()!!)
+                    sessionManager.saveLoggedUserId(userIdFromDB)
+                    if (userFromDB != null) {
+                        loggedUser.accountUser = UserEntityMapper.toAccountUser(userFromDB)
+                    } else {
+                        Log.d(Constants.USER_FROM_DB, "User doesn't exist in DB: $userFromDB")
+                        return@withContext Result.Failure(Exception("User doesn't exist in DB"))
+                    }
                     Log.d(Constants.TOKEN_LOG, "TOKEN VALUE: ${sessionManager.fetchAuthToken()}")
                     Log.d(Constants.LOGGED_USER, "LOGGED_USER: ${loggedUser.accountUser.toString()}")
                     Result.Success(token)

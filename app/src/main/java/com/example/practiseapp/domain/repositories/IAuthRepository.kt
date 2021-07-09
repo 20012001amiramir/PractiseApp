@@ -1,6 +1,5 @@
 package com.example.practiseapp.domain.repositories
 
-import com.example.practiseapp.data.network.dto.*
 import com.example.practiseapp.domain.common.Result
 import com.example.practiseapp.domain.entities.AccountUser
 
