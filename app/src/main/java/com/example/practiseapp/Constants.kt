@@ -1,6 +1,8 @@
 package com.example.practiseapp
 
 object Constants {
+    const val APPLICATION_ID = "com.example.practiseapp"
+
     const val TOKEN_PREFS = "TOKEN_PREFS"
     const val TOKEN_VALUE = "TOKEN_VALUE"
     const val TOKEN_LOG = "TOKEN_LOG"

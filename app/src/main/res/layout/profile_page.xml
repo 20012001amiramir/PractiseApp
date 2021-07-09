@@ -23,8 +23,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile"
-        android:scaleType="centerCrop"
-        android:src="@drawable/round_account_circle_black_48dp" />
+        android:scaleType="fitXY"
+        android:src="@drawable/outline_add_black_48dp" />
 
     <TextView
         android:id="@+id/name"

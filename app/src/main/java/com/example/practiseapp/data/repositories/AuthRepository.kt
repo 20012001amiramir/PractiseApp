@@ -28,15 +28,18 @@ class AuthRepository @Inject constructor(
                 val userResponse = authApi.signIn(
                     AccountUserApiMapper.toUserSignInDto(accountUser)
                 )
-                return@withContext if (userResponse.isSuccessful) {
-                    val token = userResponse.body()!!.token
-                    sessionManager.saveAuthToken(token)
-                    val userIdFromDB = userDao.insertUser(UserEntityMapper.toUserEntity(userResponse.body()!!))
+                val responseBody = userResponse.body()
+                return@withContext if (userResponse.isSuccessful &&  responseBody != null) {
+                    val token = responseBody.token
+                    val userIdFromDB = userDao.insertUser(UserEntityMapper.toUserEntity(responseBody))
                     val userFromDB = userDao.getUser(userIdFromDB)
+                    sessionManager.saveAuthToken(token)
+                    sessionManager.saveLoggedUserId(userIdFromDB)
                     if (userFromDB != null) {
                         loggedUser.accountUser = UserEntityMapper.toAccountUser(userFromDB)
                     } else {
-                        Log.d(Constants.USER_FROM_DB, "USER_FROM_DB while login: $userFromDB")
+                        Log.d(Constants.USER_FROM_DB, "User doesn't exist in DB: $userFromDB")
+                        return@withContext Result.Failure(Exception("User doesn't exist in DB"))
                     }
                     Log.d(Constants.TOKEN_LOG, "TOKEN VALUE: ${sessionManager.fetchAuthToken()}")
                     Log.d(Constants.LOGGED_USER, "LOGGED_USER: ${loggedUser.accountUser.toString()}")

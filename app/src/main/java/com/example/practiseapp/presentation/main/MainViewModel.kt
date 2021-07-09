@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.practiseapp.data.di.qualifiers.GetUserUseCaseMain
 import com.example.practiseapp.data.di.qualifiers.SaveImageUseCaseMain
 import com.example.practiseapp.data.di.qualifiers.SignOutUseCaseMain
+import com.example.practiseapp.domain.common.ConsumableValue
 import com.example.practiseapp.domain.common.Result
 import com.example.practiseapp.domain.entities.AccountUser
 import com.example.practiseapp.domain.entities.SessionManager
@@ -25,16 +26,15 @@ class MainViewModel @Inject constructor(
     private val sessionManager: SessionManager
 ): ViewModel() {
 
-    private val _logoutStatus = MutableLiveData<Result<Int>>()
+    private val _logoutStatus = MutableLiveData<ConsumableValue<Result<Int>>>()
     private val _userData = MutableLiveData<Result<AccountUser>>()
-    val logoutStatus: LiveData<Result<Int>>
+    val logoutStatus: LiveData<ConsumableValue<Result<Int>>>
         get() = _logoutStatus
     val userData: LiveData<Result<AccountUser>>
         get() = _userData
 
     fun saveImage(uri: String) = viewModelScope.launch {
         saveImageUseCase(uri)
-        _userData.postValue(getUserUseCase())
     }
 
     fun getUser() = viewModelScope.launch {
@@ -42,7 +42,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun signOut() = viewModelScope.launch {
-        _logoutStatus.postValue(signOutUseCase())
+        _logoutStatus.postValue(ConsumableValue(signOutUseCase()))
     }
 
     fun deleteToken() {
